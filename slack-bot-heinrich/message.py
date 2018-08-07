@@ -106,6 +106,11 @@ def timelypost():
         channel='assignment1',
         text=response
     )
+    slack_client.api_call(
+        "chat.postMessage",
+        channel='general',
+        text=response
+    )
     threading.Timer(86400, timelypost).start()
 
 if __name__ == "__main__":
