@@ -106,9 +106,12 @@ def timelypost():
         text=response
     )
 
+    threading.Timer(600, timelypost).start()
+
+
 if __name__ == "__main__":
 
-    threading.Timer(600, timelypost).start()
+    timelypost()
 
     if slack_client.rtm_connect(with_team_state=False):
         print("Starter Bot connected and running!")
