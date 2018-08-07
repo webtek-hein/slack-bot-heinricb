@@ -87,35 +87,28 @@ def timelypost():
      # Sends the response back to the channel
     trends = trendsList[0]['trends']
     payload = []
-    response=''
     for i in trends:
         if i['tweet_volume'] != None:
             payload.append([i['tweet_volume'], i['name']])
         payload.sort(reverse=True)
-        counter = 1
+    counter = 1
 
-        for j in payload:
-            if counter <= 10:
-                listStr += str(counter)+'. ' + j[1] + "\n"
-                counter += 1
-            else:
-                break
-        response = listStr
+    for j in payload:
+        if counter <= 10:
+            listStr += str(counter)+'. ' + j[1] + "\n"
+            counter += 1
+        else:
+            break
+    response = listStr
     slack_client.api_call(
         "chat.postMessage",
         channel='general',
         text=response
     )
-    slack_client.api_call(
-        "chat.postMessage",
-        channel='assignment1',
-        text=response
-    )
-    threading.Timer(86400, timelypost).start()
 
 if __name__ == "__main__":
 
-    timelypost()
+    threading.Timer(600, timelypost).start()
 
     if slack_client.rtm_connect(with_team_state=False):
         print("Starter Bot connected and running!")
